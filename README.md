@@ -19,7 +19,7 @@ you have four installation options:
 * `.deb` releases for Debian-based distributions
 * Installing the latest release from CPAN
 * Installation from source
-* Using a Docker image
+* Using a Docker image (amd64 or arm64)
 
 Except for Docker, **efa** is available in your PATH after installation. You
 can run `efa --version` to verify this. Documentation is available via
@@ -147,7 +147,6 @@ Documentation is not available in this image. Please refer to the
 
 Mirrors of the efa / Travel::Routing::DE::EFA repository are available at
 
-* [Chaosdorf](https://chaosdorf.de/git/derf/Travel-Routing-DE-EFA)
 * [Codeberg](https://codeberg.org/derf/Travel-Routing-DE-EFA/)
 * [Finalrewind](https://git.finalrewind.org/derf/Travel-Routing-DE-EFA/)
 * [GitHub](https://github.com/derf/Travel-Routing-DE-EFA)
