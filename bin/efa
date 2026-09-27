@@ -198,18 +198,7 @@ sub display_routes {
 
 		my $route = $routes[$i];
 
-		if ( $opt->{'extended-info'} ) {
-			print '# ' . $route->duration;
-			if ( $route->ticket_type ) {
-				printf( ", Preisstufe %s (%s€ / %s€)\n\n",
-					$route->ticket_type, $route->fare_adult,
-					$route->fare_child, );
-			}
-			else {
-				print "\n\n";
-			}
-		}
-
+		my $glance    = q{};
 		my $delay_len = 0;
 		for my $c ( $route->parts ) {
 			if ( $c->departure_delay ) {
@@ -218,6 +207,29 @@ sub display_routes {
 			}
 			if ( $c->arrival_delay ) {
 				$delay_len = max( $delay_len, length( $c->arrival_delay ) + 1 );
+			}
+			if ( $c->train_line and $c->train_line =~ m{ } ) {
+				$glance .= '  ' . $c->train_line =~ s{ ^ \S+ \s+ }{}rx;
+			}
+			else {
+				$glance .= '  ' . $c->train_line // $c->train_product;
+			}
+		}
+
+		printf(
+			"%s %s  (%s)  %s    %s\n\n",
+			( $route->parts )[0]->departure_date,
+			( $route->parts )[0]->departure_time,
+			$route->duration,
+			( $route->parts )[-1]->arrival_time,
+			$glance,
+		);
+
+		if ( $opt->{'extended-info'} ) {
+			if ( $route->ticket_type ) {
+				printf( ", Preisstufe %s (%s€ / %s€)\n\n",
+					$route->ticket_type, $route->fare_adult,
+					$route->fare_child, );
 			}
 		}
 

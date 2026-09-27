@@ -62,15 +62,16 @@ sub set_time {
 		);
 	}
 
-	if ( $time !~ / ^ [0-2]? \d : [0-5]? \d $ /x ) {
+	if ( $time =~ m{ ^ ([0-2]? \d) :? ([0-5] \d) $ }x ) {
+		@{ $self->{post} }{ 'itdTimeHour', 'itdTimeMinute' } = ( $1, $2 );
+	}
+	else {
 		Travel::Routing::DE::EFA::Exception::Setup->throw(
 			option => 'time',
 			have   => $time,
 			want   => 'HH:MM',
 		);
 	}
-
-	@{ $self->{post} }{ 'itdTimeHour', 'itdTimeMinute' } = split( /:/, $time );
 
 	return;
 }
