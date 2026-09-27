@@ -1,0 +1,24 @@
+#!/bin/sh
+
+set -e
+
+VERSION="$1"
+OUTFILE="out/libtravel-routing-de-vrr-perl_${VERSION}-1-1_all.deb"
+DEBFILE="/var/www/html/deb/libtravel-routing-de-vrr-perl_${VERSION}-1_all.deb"
+
+test -n "${VERSION}"
+
+git checkout main
+
+git pull
+git submodule update --init
+
+git checkout "${VERSION}"
+
+scripts/makedeb-docker
+
+chmod 644 "${OUTFILE}"
+mv "${OUTFILE}" "${DEBFILE}"
+aptly repo add finalrewind "${DEBFILE}"
+aptly publish update stable
+chmod -R a+rX ~/.aptly/public
