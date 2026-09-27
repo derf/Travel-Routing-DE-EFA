@@ -1038,6 +1038,7 @@ E<lt>derf@finalrewind.orgE<gt>.
 Mandatory.  Sets the start of the journey.
 I<type> is optional and may be one of B<stop> (default), B<address> (street
 and house number) or B<poi> ("point of interest").
+I<city> may be undef.
 
 =item B<destination> => B<[> I<city>B<,> I<stop> [ B<,> I<type> ] B<]>
 
