@@ -1,3 +1,11 @@
+Travel::Routing::DE::VRR 2.25 - Sun Sep 27 2026
+
+    * efa: Support "efa <from> <to>" in addition to
+           "efa <from-city> <from-stop> I<to-city> I<to-stop>".
+      Some backends work much better with this mode.
+    * efa: prepend a quick glance (date/item, duration, lines) to connections
+    * New backend service: NWL
+
 Travel::Routing::DE::VRR 2.24 - Thu Nov 23 2023
 
     * efa: Make output less horizontally dense; show arrival and departure
