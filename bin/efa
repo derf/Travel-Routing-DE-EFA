@@ -36,7 +36,9 @@ my $output_reset = -t STDOUT ? "\033[0m" : q{};
 sub show_help {
 	my ($exit_status) = @_;
 
-	say 'Usage: efa [options] <from-city> <from-stop> <to-city> <to-stop>';
+	say
+'Usage: efa [options] <from-city> <from-stop> [<via-city> <via-stop>] <to-city> <to-stop>';
+	say '   or: efa [options] <from> [<via>] <to>';
 	say 'See also: man efa';
 
 	exit $exit_status;
@@ -112,7 +114,7 @@ sub handle_efa_exception {
 	if ( $e->isa('Travel::Routing::DE::EFA::Exception::Ambiguous') ) {
 		printf STDERR (
 			"Backend error: The %s '%s' is ambiguous. Try one of %s\n",
-			$e->post_key, $e->post_value,, $e->possibilities
+			$e->post_key, $e->post_value, $e->possibilities
 		);
 		exit 4;
 	}
@@ -432,7 +434,16 @@ elsif ( defined $ignore_info and length($ignore_info) == 0 ) {
 }
 
 if ( not( @from and @to ) ) {
-	if ( @ARGV == 4 ) {
+	if ( @ARGV == 2 ) {
+		@from = ( undef, $ARGV[0] );
+		@to   = ( undef, $ARGV[1] );
+	}
+	elsif ( @ARGV == 3 ) {
+		@from = ( undef, $ARGV[0] );
+		@via  = ( undef, $ARGV[1] );
+		@to   = ( undef, $ARGV[2] );
+	}
+	elsif ( @ARGV == 4 ) {
 		( @from[ 0, 1 ], @to[ 0, 1 ] ) = @ARGV;
 	}
 	elsif ( @ARGV == 6 ) {
@@ -515,9 +526,11 @@ efa - Command line client for EFA-based public transit routing services
 
 =over
 
-=item B<efa> B<--from> I<city> I<stop> B<--to> I<city> I<stop> [ I<additional options> ]
+=item B<efa> [ I<options> ] I<from> [ I<via> ] I<to>
 
 =item B<efa> [ I<options> ] I<from-city> I<from-stop> [ I<via-city> I<via-stop> ] I<to-city> I<to-stop>
+
+=item B<efa> B<--from> I<city> I<stop> B<--to> I<city> I<stop> [ I<additional options> ]
 
 =back
 

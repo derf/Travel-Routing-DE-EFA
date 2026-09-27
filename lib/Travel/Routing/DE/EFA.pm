@@ -292,16 +292,22 @@ sub with_wheelchair {
 sub place {
 	my ( $self, $which, $place, $stop, $type ) = @_;
 
-	if ( not( $place and $stop ) ) {
+	if ( not $stop ) {
 		Travel::Routing::DE::EFA::Exception::Setup->throw(
 			option => 'place',
-			error  => 'Need >= three elements'
+			error  => 'stop must be defined'
 		);
 	}
 
 	$type //= 'stop';
 
-	@{ $self->{post} }{ "place_${which}", "name_${which}" } = ( $place, $stop );
+	if ($place) {
+		@{ $self->{post} }{ "place_${which}", "name_${which}" }
+		  = ( $place, $stop );
+	}
+	else {
+		$self->{post}{"name_${which}"} = $stop;
+	}
 
 	if ( $type =~ m{ ^ (?: address | poi | stop ) $ }x ) {
 		$self->{post}->{"type_${which}"} = $type;
