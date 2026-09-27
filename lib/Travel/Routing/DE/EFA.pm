@@ -880,6 +880,7 @@ sub routes {
 sub get_efa_urls {
 
 	# sorted lexically by shortname
+	# BEG (from Travel::Status::DE::VRR) does not work here
 	return (
 		{
 			url       => 'https://bsvg.efa.de/bsvagstd/XML_TRIP_REQUEST2',
@@ -910,6 +911,11 @@ sub get_efa_urls {
 			url       => 'https://www.efa-bw.de/nvbw/XSLT_TRIP_REQUEST2',
 			name      => 'Nahverkehrsgesellschaft Baden-Württemberg',
 			shortname => 'NVBW',
+		},
+		{
+			url  => 'https://westfalenfahrplan.de/nwl-efa/XML_TRIP_REQUEST2',
+			name => 'Nahverkehr Westfalen-Lippe',
+			shortname => 'NWL',
 		},
 		{
 			url       => 'https://efa.vagfr.de/vagfr3/XSLT_TRIP_REQUEST2',
